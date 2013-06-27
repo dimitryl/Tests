@@ -1,0 +1,28 @@
+<!-- This view would be used if this was hosted solution -->
+<div class="row">
+    <div class="small-2 columns">
+        <label for="repo" class="right inline">Owner/Repository:</label>
+    </div>
+    <div class="small-7 columns">
+        <input type="text" ng-model="search.repo" id="repo" title="Example: twitter/bootstrap" data-tooltip>
+    </div>
+    <div class="small-3 columns">
+        <button class="small button" ng-click="updateView(search.repo)">Update</button>
+    </div>
+</div>
+<table ng-hide="data.commits.length == 0" class="small-centered">
+    <tr>
+        <th class="h3"><a ng-click="sort='commit.sha';reverse=!reverse">Sha</a></th>
+        <th><a ng-click="sort='commit.author.date';reverse=!reverse">Date</a></th>
+        <th><a ng-click="sort='commit.author.name';reverse=!reverse">Name</a></th>
+        <th><a ng-click="sort='commit.author.email';reverse=!reverse">Email</a></th>
+        <th>Message</th>
+    </tr>
+    <tr ng-repeat="commit in data.commits|orderBy:sort:reverse" ng-click="commit.selected=!commit.selected" ng-class="{selected:commit.selected}">
+        <td>{{ commit.sha }}</td>
+        <td>{{ commit.commit.author.date }}</td>
+        <td>{{ commit.commit.author.name }}</td>
+        <td>{{ commit.commit.author.email }}</td>
+        <td>{{ commit.commit.message }}</td>
+    </tr>
+</table>

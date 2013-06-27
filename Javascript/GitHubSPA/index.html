@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Github commit viewer</title>
+  <link rel="stylesheet" href="css/foundation.css" />
+  <script src="js/vendor/custom.modernizr.js"></script>
+</head>
+<body ng-app="githubApp">
+  <nav class="top-bar">
+      <ul class="title-area">
+          <li class="name">
+              <h1><a href="#">Github commit viewer</a></h1>
+          </li>
+      </ul>
+  </nav>
+  <div ng-view></div>
+  <script src="js/vendor/zepto.js"></script>
+  <script src="js/vendor/foundation.js"></script>
+  <script src="js/vendor/foundation.tooltips.js"></script>
+  <script src="js/vendor/angular.js"></script>
+  <script src="js/vendor/angular-resource.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script>
+      $(document).foundation('joyride', 'start');
+  </script>
+ <!-- this is done to support chrome & ei because they will not load local resources without a webserver -->
+<script type="text/ng-template" id="/mainview.html">
+    <div class="row">
+        <div class="small-2 columns">
+            <label for="repo" class="right inline">Owner/Repository:</label>
+        </div>
+        <div class="small-7 columns">
+            <input type="text" ng-model="search.repo" id="repo" title="Example: twitter/bootstrap" data-tooltip>
+        </div>
+        <div class="small-3 columns">
+            <button class="small button" ng-click="updateView(search.repo)">Update</button>
+        </div>
+    </div>
+    <table ng-hide="data.commits.length == 0" class="small-centered">
+        <tr>
+            <th class="h3"><a ng-click="sort='commit.sha';reverse=!reverse">Sha</a></th>
+            <th><a ng-click="sort='commit.author.date';reverse=!reverse">Date</a></th>
+            <th><a ng-click="sort='commit.author.name';reverse=!reverse">Name</a></th>
+            <th><a ng-click="sort='commit.author.email';reverse=!reverse">Email</a></th>
+            <th>Message</th>
+        </tr>
+        <tr ng-repeat="commit in data.commits|orderBy:sort:reverse" ng-click="commit.selected=!commit.selected" ng-class="{selected:commit.selected}">
+            <td>{{ commit.sha }}</td>
+            <td>{{ commit.commit.author.date }}</td>
+            <td>{{ commit.commit.author.name }}</td>
+            <td>{{ commit.commit.author.email }}</td>
+            <td>{{ commit.commit.message }}</td>
+        </tr>
+    </table>
+</script>
+</body>
+</html>
